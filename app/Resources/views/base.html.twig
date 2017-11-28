@@ -43,7 +43,13 @@
 
         </div><!-- /.container -->
 
+        <div id="footer">
 
+            {% block footer %}
+               {% include('templates/footer.html.twig') %}
+            {% endblock %}
+
+        </div>
 
         {% block javascripts %}
             <!-- jQuery first, then Popper.js, then Bootstrap JS -->
