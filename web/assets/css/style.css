@@ -1,0 +1,13 @@
+body {
+    padding-top: 6rem;
+    width: 100%;
+}
+
+.starter-template {
+    padding: 3rem 1.5rem;
+    text-align: center;
+}
+
+b {
+    /*font-weight: 900;*/
+}
