@@ -2,6 +2,16 @@
 
 {% block body %}
 
-    registerForm
+    <div id="wrapper">
+        <div id="container">
+
+            Your application is ready. Here is your form.
+
+            {{ form_errors(form) }}
+            {{ form_start(form,{"method":"POST"}) }}
+            {{ form_end(form) }}
+
+        </div>
+    </div>
 
 {% endblock body %}

@@ -58,11 +58,11 @@ class WelcomeController extends Controller
         ]))
         ->add("myfile", FileType::class, array("constraints"=>[
             new File(array(
-                "maxsize" => "2M",
-            'mimeTypes' => [
-                'application/pdf',
-                'application/x-pdf'],
-            'mimeTypesMessage' => 'Please upload a valid PDF'
+                'maxSize' => '2M',
+                'mimeTypes' => [
+                    'application/pdf',
+                    'application/x-pdf'],
+                'mimeTypesMessage' => 'Please upload a valid PDF'
             ))
         ]))
         ->add("save", SubmitType::class)
@@ -74,7 +74,7 @@ class WelcomeController extends Controller
 
             if ($form->isValid()) {
 
-                return $this->render("default/regdone.html.twig", array("title"=>"Register"));
+                return $this->render("templates/regdone.html.twig", array("title"=>"Register"));
 
             }
 
