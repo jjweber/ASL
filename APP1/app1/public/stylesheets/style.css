@@ -1,0 +1,16 @@
+body {
+  padding: 0;
+  /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
+}
+
+a {
+  color: #FFF;
+}
+
+a:active {
+  color: green;
+}
+
+.jumbotron {
+  text-align: center;
+}

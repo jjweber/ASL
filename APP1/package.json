@@ -1,0 +1,15 @@
+{
+  "name": "app1",
+  "version": "1.0.0",
+  "description": "Hello",
+  "main": "hello.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "hello",
+    "app"
+  ],
+  "author": "Justin Weber",
+  "license": "UNLICENSED"
+}
