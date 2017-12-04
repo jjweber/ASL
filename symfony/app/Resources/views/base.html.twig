@@ -39,7 +39,47 @@
 
         <div role="main" class="container">
 
-            {% block body %}{% endblock %}
+            <!-- Portfolio Item Row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{ title }}
+                        <small>{{ title }} Subheading</small>
+                    </h1>
+                </div>
+
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+
+                <div class="col-md-8">
+                    {% block body %}{% endblock %}
+
+                </div>
+
+                <div class="col-md-4">
+                    <h3>Project Description</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis dolores facilis iste iusto minus, molestiae mollitia nisi temporibus! Adipisci aliquam amet ea inventore iure maiores modi officia, perspiciatis ratione voluptatum.</p>
+                    <h3>Project Details</h3>
+                    <ul>
+                        <li>Lorem Ipsum</li>
+                        <li>Dolor Sit Amet</li>
+                        <li>Consectetur</li>
+                        <li>Adipiscing Elit</li>
+                    </ul>
+                </div>
+
+            </div>
+            <!-- /.row -->
+
+            <!-- Related Projects Row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header">Related Projects</h3>
+                </div>
+            </div>
+
+
 
         </div><!-- /.container -->
 

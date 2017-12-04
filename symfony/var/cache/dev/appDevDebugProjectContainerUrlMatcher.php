@@ -117,6 +117,11 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::helloAction',  '_route' => 'hellopage',);
         }
 
+        // registerForm
+        if ('/registerForm' === $pathinfo) {
+            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::registerForm',  '_route' => 'registerForm',);
+        }
+
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
     }
 }

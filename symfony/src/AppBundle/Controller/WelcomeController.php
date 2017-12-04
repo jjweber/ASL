@@ -4,10 +4,24 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Email as EmailConstraint;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 class WelcomeController extends Controller
 {
@@ -16,7 +30,7 @@ class WelcomeController extends Controller
      */
 
     public function indexAction() {
-        return $this->render('templates/index.html.twig', array( "name" => "home" ));
+        return $this->render('templates/index.html.twig', array( "name" => "home", "title" => "Home" ));
     }
 
     /**
@@ -24,11 +38,11 @@ class WelcomeController extends Controller
      */
 
     public function helloAction() {
-        return $this->render('templates/hello.html.twig', array( "name" => "hello" ));
+        return $this->render('templates/hello.html.twig', array( "name" => "hello", "title" => "Hello" ));
     }
 
     /**
-     * @Route("/registerForm" name="registerForm")
+     * @Route("/registerForm", name="registerForm")
      */
 
     public function registerForm(Request $request) {
@@ -38,10 +52,33 @@ class WelcomeController extends Controller
         ->add("name", TextType::class, array("required"=>true, "constraints"=>[
             new NotBlank(array("message"=>"Can not be blank."))
             ]))
-
         ->add("email", TextType::class, array("required"=>true, "constraints"=> [
-            new EmailConstraint()
+            new EmailConstraint(array("message"=>"This is not the correct way of typing an email.")),
+            new NotBlank(array("message"=>"Can not be blank."))
         ]))
+        ->add("myfile", FileType::class, array("constraints"=>[
+            new File(array(
+                "maxsize" => "2M",
+            'mimeTypes' => [
+                'application/pdf',
+                'application/x-pdf'],
+            'mimeTypesMessage' => 'Please upload a valid PDF'
+            ))
+        ]))
+        ->add("save", SubmitType::class)
+        ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($request->isMethod("POST")) {
+
+            if ($form->isValid()) {
+
+                return $this->render("default/regdone.html.twig", array("title"=>"Register"));
+
+            }
+
+        }
 
         return $this->render('templates/registerForm.html.twig', array( "title" => "Register", "form" => $form->createView() ));
 
