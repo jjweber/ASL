@@ -1,4 +1,5 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var router = express.Router();
 
 /* GET home page. */
@@ -36,38 +37,14 @@ router.get('/form', function(req, res, next) {
   req.session.errors = null;
 });
 
-/*
-app.post("/submit", function(req, res) {
-  console.log("Form submit!");
-  console.log(req.body.name);
-  console.log(req.body.email);
-  console.log(req.body.pw);
-  
+router.get('/submit', function(req, res, next){
+  console.log("Getting form.");
 });
-*/
-router.post('/submit', function(req, res) {
+
+router.post('/submit', function(req, res, next) {
   console.log("Form Submitted");
-  req.check('email', 'Invalid email address').isEmail();
-  req.check('pw', 'Password is invaild').isLength({min4}).equals(req.body.confirmPassword);
-
-  var errors = req.validationErrors();
-  if(errors) {
-    req.session.errors = errors;
-
-    res.redirect('/form');
-  }
+  res.end(JSON.stringify(req.body));
 });
 
-/* GET form page. 
-router.get('/form', function(req, res, next) {
-  res.render('form', { 
-            title: 'Form',
-            navitems: [
-            {link: '/', content: 'Home'},
-            {link: '/users', content: 'Users'},
-            {link: '/form', content: 'Form'}            
-        ] });
-});
-*/
 module.exports = router;
 

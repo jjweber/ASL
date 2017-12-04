@@ -7,7 +7,7 @@ block content
         h1.display-4.m-b-2 Register
 
         // register form
-        form(action='..index/submit', method='POST')
+        form(action='/submit', method='POST')
           div.form-group
             label(for='name') Name:
             input#name.form-control(type='text', placeholder='first and last' name='name')
@@ -15,6 +15,6 @@ block content
             label(for='email') Email:
             input#email.form-control(type='email', placeholder='name@email.com' name='email')
           div.form-group
-            label(for='pw') Password:
-            input#pw.form-control(type='password' name='password')
-          button.btn.btn-primary(type='submit', name='submit', onclick = 'formSubmit()') Sign up
+            label(for='myFile') My File:
+            input#myFile.form-control-file(type='file' name='myfile')
+          button.btn.btn-primary(type='submit', name='submit') Save
