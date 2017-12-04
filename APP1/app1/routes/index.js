@@ -35,6 +35,11 @@ router.get('/form', function(req, res, next) {
         ] });
 });
 
+router.post('/submit', function(req, res, next) {
+  req.check('email', 'Invalid email address').isEmail();
+  req.check('pw', 'Password is invaild').isLength({min4}).equals(req.body.confirmPassword);
+})
+
 /* GET form page. 
 router.get('/form', function(req, res, next) {
   res.render('form', { 
