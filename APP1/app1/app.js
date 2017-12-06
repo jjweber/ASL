@@ -5,7 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
+const v = require('node-input-validator');
+
 var expressSession = require('express-session');
+var flash1 = require('express-flash-messages');
+var flash = require('connect-flash');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -16,6 +20,10 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+
+// Flash messages
+app.use(flash());
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -25,7 +33,7 @@ app.use(expressValidator()); // Add this after the bodyParser middlewares!
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(expressSession({secret: 'max', saveUninitialized: false, resave: false}));
+app.use(expressSession({secret: 'max', saveUninitialized: true, resave: true}));
 
 app.use('/', index);
 app.use('/users', users);

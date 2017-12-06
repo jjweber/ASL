@@ -74,6 +74,10 @@ class WelcomeController extends Controller
 
             if ($form->isValid()) {
 
+                $file = $form->get("myfile")->getData();
+                $fileName = md5(uniqid()).".".$file->guessExtension();
+                $file->move("/Users/jweber0169/Documents/asl/symfony", $fileName);
+
                 return $this->render("templates/regdone.html.twig", array("title"=>"Register"));
 
             }
