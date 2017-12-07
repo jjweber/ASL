@@ -90,38 +90,26 @@ router.post('/submit', function(req, res, next) {
     
     if(JSON.stringify(matched) == 'false') {
 
-      if(JSON.stringify(validator.errors['name'])){
-        if(JSON.stringify((matched)) == 'true') {
-          console.log('Success!!!!!');
-          req.flash('nameCheck', ''); 
-          req.flash('emailCheck', JSON.stringify(validator.errors['email']['message']));                   
-          res.redirect('/form'); 
-        }
-
-        else {
-          console.log('Invalid!!');       
-          req.flash('nameCheck', JSON.stringify(validator.errors['name']['message'])); 
-          req.flash('emailCheck', '');                   
-          res.redirect('/form');      
-        }   
-      
-      }
-
-      if(JSON.stringify(validator.errors['email'])){
-        if(JSON.stringify((matched)) == 'true') {
-          console.log('Success!!!!!');
-          req.flash('nameCheck', JSON.stringify(validator.errors['name']['message']));         
-          req.flash('emailCheck', '');           
-          res.redirect('/form');      
-        }
-        else {
-          console.log('Invalid!!');       
-          req.flash('nameCheck', '');         
-          req.flash('emailCheck', JSON.stringify(validator.errors['email']['message']));           
-          res.redirect('/form');      
-        }    
+      if((JSON.stringify(validator.errors['name'])) && (JSON.stringify((matched)) == 'false')){
+        console.log('Invalid!!');       
+        req.flash('nameCheck', JSON.stringify(validator.errors['name']['message'])); 
+        req.flash('emailCheck', '');                   
+        //res.redirect('/form');      
+            
+      } else if((JSON.stringify(validator.errors['email'])) && (JSON.stringify((matched)) == 'false')){
+        console.log('Invalid!!');       
+        req.flash('nameCheck', '');         
+        req.flash('emailCheck', JSON.stringify(validator.errors['email']['message']));           
+        //res.redirect('/form');      
+      } else {
+        req.flash('nameCheck', JSON.stringify(validator.errors['name']['message']));         
+        req.flash('emailCheck', JSON.stringify(validator.errors['email']['message']));           
+        //res.redirect('/form');      
+        
       }
       
+      res.redirect('/form');      
+
        
 
       
