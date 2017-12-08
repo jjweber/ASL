@@ -33,6 +33,10 @@
                         <a class="nav-link" href="{{ path('hellopage') }}">Hello</a>
                     </li>
 
+                    <li class="nav-item {% if app.request.attributes.get('_route') == 'productpage' %}active{% endif %}">
+                        <a class="nav-link" href="{{ path('productpage') }}">Products</a>
+                    </li>
+
                     <li class="nav-item {% if app.request.attributes.get('_route') == 'registerForm' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('registerForm') }}">Register Form</a>
                     </li>
@@ -50,8 +54,8 @@
             <!-- Portfolio Item Row -->
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">{{ title }}
-                        <small>{{ title }} Subheading</small>
+                    {#<h1 class="page-header">{{ title }}
+                        <small>{{ title }} Subheading</small>#}
                     </h1>
                 </div>
 

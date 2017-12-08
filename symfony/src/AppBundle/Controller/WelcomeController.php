@@ -138,6 +138,29 @@ class WelcomeController extends Controller
         return $this->render('templates/hello.html.twig', array( "name" => "hello", "title" => "Hello" ));
     }
 
+
+
+
+
+
+
+    /**
+     * @Route("/product", name="productpage")
+     */
+
+    public function productAction() {
+        $response = $this->forward('App\Controller\ProductController::fancy');
+
+        // ... further modify the response or return it directly
+
+        return $response;
+    }
+
+
+
+
+
+
     /**
      * @Route("/registerForm", name="registerForm")
      */
