@@ -2,10 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="06e8f6a6-183a-4627-91b4-c3ca1b8fddcd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/APP1/app1/app.js" afterPath="$PROJECT_DIR$/APP1/app1/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/APP1/app1/public/javascripts/main.js" afterPath="$PROJECT_DIR$/APP1/app1/public/javascripts/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/APP1/app1/routes/index.js" afterPath="$PROJECT_DIR$/APP1/app1/routes/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/APP1/app1/views/form.pug" afterPath="$PROJECT_DIR$/APP1/app1/views/form.pug" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/symfony/.idea/workspace.xml" afterPath="$PROJECT_DIR$/symfony/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/symfony/app/Resources/views/base.html.twig" afterPath="$PROJECT_DIR$/symfony/app/Resources/views/base.html.twig" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/symfony/app/config/parameters.yml" afterPath="$PROJECT_DIR$/symfony/app/config/parameters.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/symfony/src/AppBundle/Controller/WelcomeController.php" afterPath="$PROJECT_DIR$/symfony/src/AppBundle/Controller/WelcomeController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/symfony/var/cache/dev/appDevDebugProjectContainer.php" afterPath="$PROJECT_DIR$/symfony/var/cache/dev/appDevDebugProjectContainer.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/symfony/var/cache/dev/appDevDebugProjectContainer.php.meta" afterPath="$PROJECT_DIR$/symfony/var/cache/dev/appDevDebugProjectContainer.php.meta" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/symfony/var/cache/dev/appDevDebugProjectContainer.xml" afterPath="$PROJECT_DIR$/symfony/var/cache/dev/appDevDebugProjectContainer.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/symfony/var/cache/dev/appDevDebugProjectContainer.xml.meta" afterPath="$PROJECT_DIR$/symfony/var/cache/dev/appDevDebugProjectContainer.xml.meta" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/symfony/var/cache/dev/appDevDebugProjectContainerCompiler.log" afterPath="$PROJECT_DIR$/symfony/var/cache/dev/appDevDebugProjectContainerCompiler.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/symfony/var/logs/dev.log" afterPath="$PROJECT_DIR$/symfony/var/logs/dev.log" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,7 +21,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -88,11 +94,6 @@
               <item name="asl" type="b2602c69:ProjectViewProjectNode" />
               <item name="asl" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
-            <path>
-              <item name="asl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="asl" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="symfony" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -134,11 +135,12 @@
       <updated>1511666786734</updated>
       <workItem from="1511666787901" duration="11690000" />
       <workItem from="1512407385502" duration="82000" />
+      <workItem from="1512687885424" duration="62000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19835000" />
+    <option name="totallyTimeSpent" value="19897000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="552" y="23" width="888" height="877" extended-state="0" />

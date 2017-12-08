@@ -34,6 +34,103 @@ class WelcomeController extends Controller
     }
 
     /**
+     * @Route("/", name="userspage")
+     */
+
+    public function usersAction() {
+
+        $em = $this->getDoctrine()->getManager();
+        $conn = $em->getConnection();
+
+        $stmt = $conn->prepare("select * from users");
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
+        $data = array("title"=>"Users", "users"=>$results);
+        return $this->render('templates/users.html.twig', array( "name" => "users", "title" => "Users" ), $data);
+    }
+
+    /**
+     * @Route("/", name="addForm")
+     */
+
+    public function addForm() {
+
+        $data = array("title"=>"Users");
+        return $this->render('templates/addForm.html.twig', $data);
+    }
+
+    /**
+     * @Route("/", name="addUser")
+     */
+
+    public function addUser(Request $request) {
+
+        $request = Request::createFromGlobals();
+        $request->getPathInfo();
+
+        $em = $this->getDoctrine()->getManager();
+        $stmt = $em->getConnection()->prepare("insert into users (name, lastname, email) values (:name, :lastname, :email)");
+        $stmt->bindValue('email', $request->get('email'));
+        $stmt->bindValue('name', $request->get('name'));
+        $stmt->bindValue('lastname', $request->get('lastname'));
+        $stmt->execute();
+
+        return $this->redirect("/users");
+    }
+
+    /**
+     * @Route("/", name="gUser")
+     */
+
+    public function gUser(Request $request, $id) {
+
+        $em = $this->getDoctrine()->getManager();
+        $stmt = $em->getConnection()->prepare("select * from users where id = :id");
+        $stmt->bindValue('id', $id);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
+        $data = array("title"=>"Users", "users"=>$results);
+        return $this->render("/templates/updateForm.html.twig", $data);
+    }
+
+    /**
+     * @Route("/", name="deleteUser")
+     */
+
+    public function deleteUser(Request $request, $id) {
+
+        $request = Request::createFromGlobals();
+        $request->getPathInfo();
+        $em = $this->getDoctrine()->getManager();
+        $stmt = $em->getConnection->prepare("delete form users where id = :id");
+        $stmt->bindValue('id', $id);
+        $stmt->execute();
+
+        return $this->redirect("/users");
+    }
+
+    /**
+     * @Route("/", name="updateUser")
+     */
+
+    public function updateUser(Request $request, $id) {
+
+        $request = Request::createFromGlobals();
+        $request->getPathInfo();
+        $em = $this->getDoctrine()->getManager();
+        $stmt = $em->getConnection->prepare("update users set name = :name, lastname = :lastname, email = :email where id = :id");
+        $stmt->bindValue('id', $id);
+        $stmt->bindValue('email', $request->get('email'));
+        $stmt->bindValue('name', $request->get('name'));
+        $stmt->bindValue('lastname', $request->get('lastname'));
+        $stmt->execute();
+
+        return $this->redirect("/users");
+    }
+
+    /**
      * @Route("/hello", name="hellopage")
      */
 

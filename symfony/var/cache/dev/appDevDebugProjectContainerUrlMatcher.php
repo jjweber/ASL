@@ -112,6 +112,60 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::indexAction',  '_route' => 'homepage',);
         }
 
+        // userspage
+        if ('' === $trimmedPathinfo) {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'userspage');
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::usersAction',  '_route' => 'userspage',);
+        }
+
+        // addForm
+        if ('' === $trimmedPathinfo) {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'addForm');
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::addForm',  '_route' => 'addForm',);
+        }
+
+        // addUser
+        if ('' === $trimmedPathinfo) {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'addUser');
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::addUser',  '_route' => 'addUser',);
+        }
+
+        // gUser
+        if ('' === $trimmedPathinfo) {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'gUser');
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::gUser',  '_route' => 'gUser',);
+        }
+
+        // deleteUser
+        if ('' === $trimmedPathinfo) {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'deleteUser');
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::deleteUser',  '_route' => 'deleteUser',);
+        }
+
+        // updateUser
+        if ('' === $trimmedPathinfo) {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'updateUser');
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::updateUser',  '_route' => 'updateUser',);
+        }
+
         // hellopage
         if ('/hello' === $pathinfo) {
             return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::helloAction',  '_route' => 'hellopage',);
