@@ -11,4 +11,11 @@ block content
                     <p class="lead">This is the users page.</p>
                 </div>
             </div>
+
+            if users
+                each user in users
+                    <span> | </span>
+                    a(class=title==user.firstName + user.lastName)
+                        =user.firstName + user.lastName
+
       div.footer
