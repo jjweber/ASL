@@ -12,10 +12,30 @@ block content
                 </div>
             </div>
 
-            if users
-                each user in users
-                    <span> | </span>
-                    a(class=title==user.firstName + user.lastName)
-                        =user.firstName + user.lastName
+            //- Table for users database.
+            <table class="table table-striped table-dark">
+                <thead>
+                    <tr>
+                        //<th scope="col">#</th>
+                        <th scope="col">id</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    //- Checking if there are users.
+                    if users
+                        //- Looping through users array.
+                        each user, i in users
+                            <tr>
+                                //<th scope="row"></th>
+                                td= user.id 
+                                td= user.firstName
+                                td= user.lastName
+                            </tr>
+                </tbody>
+            </table>
+
 
       div.footer
