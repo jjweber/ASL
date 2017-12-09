@@ -16,6 +16,27 @@ var users = require('./routes/users');
 
 var app = express();
 
+var Sequelize = require('sequelize');
+var mysql = require('mysql2');
+
+
+// This is an example of connecting to database with express-myconnection & mysql.
+/*
+
+//var connection = require('express-myconnection');
+//var mysql2 = require('mysql');
+
+app.use(
+        connection(mysql,{
+            host: 'localhost',
+            user: 'root',
+            password:'root',
+            port: '6000',
+            database: 'users'
+        }, 'request')
+);
+*/
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');

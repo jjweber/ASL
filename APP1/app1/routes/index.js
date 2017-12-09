@@ -4,9 +4,51 @@ const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 const v = require('node-input-validator');
 var flash = require('connect-flash');
-
 var router = express.Router();
 let util = require('util');
+
+// For use without sequelize.
+// User = require('../models/user.js');
+
+// Requiring sequelize.
+var Sequelize = require('sequelize');
+
+// Creating an instance of sequelize for the users table.
+const sequelize = new Sequelize('users', 'root', 'root', 
+      { host: 'localhost', dialect: 'mysql', port: 6000 }
+);
+
+// Testing the mysql database connection.
+sequelize
+.authenticate()
+.then(() => {
+  console.log('Connection has been established successfully.');
+})
+.catch(err => {
+  console.error('Unable to connect to the database:', err);
+});
+
+// Creating and defining a User model.
+const User = sequelize.define('user', {
+
+  firstName: {
+        type: Sequelize.STRING
+    },
+
+    lastName: {
+        type: Sequelize.STRING
+    }
+});
+
+
+// force: true will drop the table if it already exists
+User.sync({force: false}).then(() => {
+  // Table created
+  return User.create({
+    firstName: 'John',
+    lastName: 'Hancock'
+  });
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -20,15 +62,57 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET users page. */
-router.get('/users', function(req, res, next) {
+router.get('/staticUsers', function(req, res, next) {
+  getUsers = function() {
+    var users = [{"name":"sdf", "lastname":"Asdf"}];
+    return users;
+  }
   res.render('users', { 
             title: 'Users',
-            users: [{"Name":"Justin", "LastName":"Weber"}, {"Name":"John", "LastName":"Doe"}],
+            users: [{"Name":"Justin", "LastName":"Weber", "id":"1"}, {"Name":"John", "LastName":"Doe" , "id":"2"}],
             navitems: [
             {link: '/', content: 'Home'},
             {link: '/users', content: 'Users'},
             {link: '/form', content: 'Form'}
         ] });
+});
+
+/* GET users page. */
+router.get('/users', function(req, res, next) {
+
+
+  users = User.findAll().then(users => {
+
+    res.render('users', { 
+        title: 'Users',
+        users: users,
+        navitems: [
+        {link: '/', content: 'Home'},
+        {link: '/users', content: 'Users'},
+        {link: '/form', content: 'Form'}
+    ] });
+    
+  }) 
+
+
+  // For use without sequelize
+  /* var userObj = new User({}, req);
+
+  userObj.getAll(function(users) {
+
+    res.render('users', { 
+        title: 'Users',
+        users: users,
+        navitems: [
+        {link: '/', content: 'Home'},
+        {link: '/users', content: 'Users'},
+        {link: '/form', content: 'Form'}
+    ] });
+
+  })
+  */
+
+
 });
 
 /* GET form page.*/ 
