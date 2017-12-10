@@ -11,14 +11,15 @@ a:active {
   color: green;
 }
 
-.jumbotron {
-}
-
 .col-md-6 {
   margin: 2rem auto;
 }
 
-.form {
-  width: 100%;
+#addUser-container {
+  width: 50%;
+  margin: 3rem auto;
 }
 
+#addUserBtn {
+  margin: 1rem 1rem 1rem 0;
+}

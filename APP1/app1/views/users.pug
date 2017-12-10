@@ -12,18 +12,18 @@ block content
                 </div>
             </div>
 
+            a#addUserBtn.btn.btn-success(href='/add_user_Form') Add New User
+
             //- Table for users database.
-            <table class="table table-striped table-dark">
-                <thead>
-                    <tr>
+            table.table.table-striped.table-dark
+                thead
+                    tr
                         //<th scope="col">#</th>
-                        <th scope="col">id</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
+                        th id
+                        th First Name
+                        th Last Name
+
+                tbody     
                     //- Checking if there are users.
                     if users
                         //- Looping through users array.
@@ -33,9 +33,16 @@ block content
                                 td= user.id 
                                 td= user.firstName
                                 td= user.lastName
+                                td 
+                                    form(action="/edit_user_Form", method="POST")
+                                        input(type="hidden", name="userEdit", value=user.id)
+                                        input.btn.btn-primary(type="submit", value="Edit")
+                                td
+                                    form(action="/delete_user_Form", method="POST")
+                                        input(type="hidden", name="idField", value=user.id)
+                                        input.btn.btn-danger(type="submit", value="Delete")
                             </tr>
-                </tbody>
-            </table>
+           
 
 
       div.footer
