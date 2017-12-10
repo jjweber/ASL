@@ -12,10 +12,37 @@ block content
                 </div>
             </div>
 
-            if users
-                each user in users
-                    <span> | </span>
-                    a(class=title==user.firstName + user.lastName)
-                        =user.firstName + user.lastName
+            a#addUserBtn.btn.btn-success(href='/add_user_Form') Add New User
+
+            //- Table for users database.
+            table.table.table-striped.table-dark
+                thead
+                    tr
+                        //<th scope="col">#</th>
+                        th id
+                        th First Name
+                        th Last Name
+
+                tbody     
+                    //- Checking if there are users.
+                    if users
+                        //- Looping through users array.
+                        each user, i in users
+                            <tr>
+                                //<th scope="row"></th>
+                                td= user.id 
+                                td= user.firstName
+                                td= user.lastName
+                                td 
+                                    form(action="/edit_user_Form", method="POST")
+                                        input(type="hidden", name="userEdit", value=user.id)
+                                        input.btn.btn-primary(type="submit", value="Edit")
+                                td
+                                    form(action="/delete_user_Form", method="POST")
+                                        input(type="hidden", name="idField", value=user.id)
+                                        input.btn.btn-danger(type="submit", value="Delete")
+                            </tr>
+           
+
 
       div.footer

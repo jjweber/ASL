@@ -6,6 +6,8 @@ const v = require('node-input-validator');
 var flash = require('connect-flash');
 var router = express.Router();
 let util = require('util');
+var nodeWidget = require('node-widgets');
+
 
 // For use without sequelize.
 // User = require('../models/user.js');
@@ -42,13 +44,15 @@ const User = sequelize.define('user', {
 
 
 // force: true will drop the table if it already exists
-User.sync({force: false}).then(() => {
+/*
+User.sync({force: true}).then(() => {
   // Table created
   return User.create({
-    firstName: 'John',
-    lastName: 'Hancock'
+    firstName: 'Justin',
+    lastName: 'Weber'
   });
 });
+*/
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -94,7 +98,6 @@ router.get('/users', function(req, res, next) {
     
   }) 
 
-
   // For use without sequelize
   /* var userObj = new User({}, req);
 
@@ -113,6 +116,184 @@ router.get('/users', function(req, res, next) {
   */
 
 
+});
+
+/* GET Add Users form. */
+router.get('/add_user_Form', function(req, res, next) {
+  
+  var incomingJson = {
+    "form": "myAddForm",
+    "action": "/validate_User_Add_Form",
+    "method": "post",
+    "fields": {
+      "firstName": {
+        "label" : "First Name",
+        "type": "text",
+        "class": "form-control",
+        "required": true,
+        "minlen" : 1,
+        "maxlen" : 20,
+        "msg": "First Name is required"
+      },
+      "lastName": {
+        "label" : "Last Name",
+        "type": "text",
+        "class": "form-control",
+        "required": true,
+        "minlen" : 1,
+        "maxlen" : 20,
+        "msg": "Last Name is required"
+      },
+      "button": {
+        "type": "submit",
+        "class": "btn btn-primary",
+        "value" : "Add User"
+      }
+    }
+  }
+
+  // Create the HTML form using json object
+  nodeWidget.toHTML(incomingJson, function(err, form){
+    if(err) { throw err; }
+    
+    // form - is the template rendered HTML elements
+    res.send(form);
+    return next();
+  });
+});
+
+/* POST Validate users route.*/ 
+router.post('/validate_User_Add_Form', function(req, res, next) {
+  var incomingData = req.body;
+  
+    nodeWidget.validate(incomingData, function(err, valid, form){
+      //console.log("your form is valid ? " + valid);
+      
+      if(err) { throw err }
+      console.log("your form is valid ? " + valid + JSON.stringify(incomingData));
+      if (valid == false) {
+        res.send(form);
+      } else {
+        User.create({
+          firstName: incomingData.firstName,
+          lastName: incomingData.lastName
+        });
+        res.redirect('/users');
+      }
+      
+      return next();
+      
+    });
+    
+});
+
+/* POST Delete User.*/ 
+router.post('/delete_user_Form', function(req, res, next) {
+  var incomingData = req.body.idField;
+
+  console.log(incomingData);
+  
+  User.destroy({
+    where: {
+      id: incomingData
+    }
+  }).then(function() {
+    res.redirect('/users');
+  })
+
+});
+
+/* GET Edit User form.*/ 
+router.post('/edit_user_Form', function(req, res, next) {
+  var formData = req.body.userEdit;
+
+  var current = User.findAll(
+    {
+      where: {
+        id: formData,
+      }
+    }).then(function(foundUser){
+      
+      var incomingJson = {
+        "form": "myEditForm",
+        "action": "/validate_User_Edit_Form",
+        "method": "post",
+        "fields": {
+          "id": {
+            "type": "hidden",
+            "value": formData
+          },
+          "firstName": {
+            "label" : "First Name",
+            "type": "text",
+            "class": "form-control",
+            "value": foundUser[0].firstName,                    
+            "required": true,
+            "minlen" : 1,
+            "maxlen" : 20,
+            "msg": "First Name is required"
+          },
+          "lastName": {
+            "label" : "Last Name",
+            "type": "text",
+            "class": "form-control",
+            "value": foundUser[0].lastName,        
+            "required": true,
+            "minlen" : 1,
+            "maxlen" : 20,
+            "msg": "Last Name is required"
+          },
+          "button": {
+            "type": "button",
+            "class": "btn btn-primary",
+            "value" : "Save Changes"
+          }
+        }
+      }
+    
+      // Create the HTML form using json object
+      nodeWidget.toHTML(incomingJson, function(err, form){
+        if(err) { throw err; }
+        
+        // form - is the template rendered HTML elements
+        res.send(form);
+        return next();
+      });
+
+    });
+    
+});
+
+/* POST Validate users route.*/ 
+router.post('/validate_User_Edit_Form', function(req, res, next) {
+  var incomingData = req.body;
+  
+    nodeWidget.validate(incomingData, function(err, valid, form){
+      console.log("your form is valid ? " + incomingData);
+      
+      if(err) { throw err }
+      console.log("your form is valid ? " + valid + incomingData);
+      if (valid == false) {
+        res.send(form);
+      } else {
+        User.update({
+            firstName: incomingData.firstName,
+            lastName: incomingData.lastName
+        },
+        {
+          where: {
+            id: incomingData.id
+          }, 
+          returning: true
+        });
+        
+        res.redirect('/users');
+      }
+      
+      return next();
+      
+    });
+    
 });
 
 /* GET form page.*/ 

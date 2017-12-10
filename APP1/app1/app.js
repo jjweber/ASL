@@ -19,7 +19,6 @@ var app = express();
 var Sequelize = require('sequelize');
 var mysql = require('mysql2');
 
-
 // This is an example of connecting to database with express-myconnection & mysql.
 /*
 

@@ -17,7 +17,7 @@ html
           .navbar-header
             each item in navitems
               <span> | </span>
-              a(class=title==item.content?'active':undefined href=item.link)
+              a(class=title==item.content?'active':undefined, href=item.link)
                 =item.content
 
       div.page-header
