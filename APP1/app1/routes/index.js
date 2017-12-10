@@ -39,7 +39,16 @@ const User = sequelize.define('user', {
 
     lastName: {
         type: Sequelize.STRING
+    },
+
+    email: {
+      type: Sequelize.STRING
+    },
+
+    age: {
+      type: Sequelize.INTEGER
     }
+
 });
 
 
@@ -49,7 +58,9 @@ User.sync({force: true}).then(() => {
   // Table created
   return User.create({
     firstName: 'Justin',
-    lastName: 'Weber'
+    lastName: 'Weber',
+    email: 'jjweber@student.fullsail.edu',
+    age: '38'
   });
 });
 */
@@ -133,7 +144,7 @@ router.get('/add_user_Form', function(req, res, next) {
         "required": true,
         "minlen" : 1,
         "maxlen" : 20,
-        "msg": "First Name is required"
+        "msg": "First Name is Required"
       },
       "lastName": {
         "label" : "Last Name",
@@ -142,7 +153,23 @@ router.get('/add_user_Form', function(req, res, next) {
         "required": true,
         "minlen" : 1,
         "maxlen" : 20,
-        "msg": "Last Name is required"
+        "msg": "Last Name is Required"
+      },
+      "email" : {
+        "label" : "Email Address",
+        "class": "form-control",
+        "type" : "email",
+        "required": true,
+        "msg": "Email Address is Invalid",
+      },
+      "age": {
+        "label": "Age",
+        "type": "number",
+        "class": "form-control",
+        "required": true,
+        "msg": "Age is Invalid",
+        "minval": 1,
+        "maxval": 200
       },
       "button": {
         "type": "submit",
@@ -176,7 +203,9 @@ router.post('/validate_User_Add_Form', function(req, res, next) {
       } else {
         User.create({
           firstName: incomingData.firstName,
-          lastName: incomingData.lastName
+          lastName: incomingData.lastName,
+          email: incomingData.email,
+          age: incomingData.age
         });
         res.redirect('/users');
       }
@@ -203,7 +232,7 @@ router.post('/delete_user_Form', function(req, res, next) {
 
 });
 
-/* GET Edit User form.*/ 
+/* POST Edit User form.*/ 
 router.post('/edit_user_Form', function(req, res, next) {
   var formData = req.body.userEdit;
 
@@ -243,8 +272,26 @@ router.post('/edit_user_Form', function(req, res, next) {
             "maxlen" : 20,
             "msg": "Last Name is required"
           },
+          "email" : {
+            "label" : "Email Address",
+            "class": "form-control",
+            "type" : "email",
+            "value": foundUser[0].email,                    
+            "required": true,
+            "msg": "Email Address is invalid",
+          },
+          "age": {
+            "label": "Age",
+            "type": "number",
+            "class": "form-control",
+            "value": foundUser[0].age,                    
+            "required": true,
+            "msg": "Age is Invalid",
+            "minval": 1,
+            "maxval": 200
+          },
           "button": {
-            "type": "button",
+            "type": "submit",
             "class": "btn btn-primary",
             "value" : "Save Changes"
           }
@@ -278,8 +325,10 @@ router.post('/validate_User_Edit_Form', function(req, res, next) {
       } else {
         User.update({
             firstName: incomingData.firstName,
-            lastName: incomingData.lastName
-        },
+            lastName: incomingData.lastName,
+            email: incomingData.email,
+            age: incomingData.age            
+          },
         {
           where: {
             id: incomingData.id

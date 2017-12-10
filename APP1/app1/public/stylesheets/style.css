@@ -23,3 +23,9 @@ a:active {
 #addUserBtn {
   margin: 1rem 1rem 1rem 0;
 }
+
+@media (max-width: 453px) {
+  .jumbotron h1 {
+    font-size: 3.5rem;
+  }
+}
