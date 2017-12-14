@@ -26,6 +26,14 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class WelcomeController extends Controller
 {
     /**
+     * @Route("/login", name="login_form")
+     */
+    public function loginAction() {
+
+    }
+
+
+    /**
      * @Route("/", name="homepage")
      */
 
