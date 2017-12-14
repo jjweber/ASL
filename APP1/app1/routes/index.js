@@ -1,23 +1,60 @@
 var express = require('express');
+var router = express.Router();
+
+GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var passport = require('passport');
+var flash = require('connect-flash');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+let util = require('util');
+
 const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 const v = require('node-input-validator');
-var flash = require('connect-flash');
-var router = express.Router();
-let util = require('util');
 var nodeWidget = require('node-widgets');
 
 
+passport.serializeUser(function(user, done) {
+  console.log(user);
+  done(null, user);
+});
+
+passport.deserializeUser(function(ob, done) {
+  done(null, { id: ob.id, email:ob.email, name:ob.name, picture:ob.picture});
+});
+
+passport.use(new GoogleStrategy({
+  clientID: '446678059336-4qg3da3rgu12dnci0e7b545rdt9b4t6j.apps.googleusercontent.com',
+  clientSecret: '6a-wY8J2wZcyLoeqWhe08evw',
+  callbackURL: 'https://localhost:3000/auth/google/callback',
+},
+  function(token, refreshToken, profile, done) {
+    process.nextTick(function() {
+    console.log(profile);
+    return done(null, { id: profile.id, email:profile.emails[0].value});
+  });
+}
+));
+
+const authed = function(req, res, next) {
+  if(req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/');
+  }
+};
+
+
 // For use without sequelize.
-// User = require('../models/user.js');
+// U = require('../models/user.js');
 
 // Requiring sequelize.
 var Sequelize = require('sequelize');
 
 // Creating an instance of sequelize for the users table.
 const sequelize = new Sequelize('users', 'root', 'root', 
-      { host: 'localhost', dialect: 'mysql', port: 6000 }
+  { host: 'localhost', dialect: 'mysql', port: 6000 }
 );
 
 // Testing the mysql database connection.
@@ -31,8 +68,7 @@ sequelize
 });
 
 // Creating and defining a User model.
-const User = sequelize.define('user', {
-
+const U = sequelize.define('user', {
   firstName: {
         type: Sequelize.STRING
     },
@@ -48,15 +84,14 @@ const User = sequelize.define('user', {
     age: {
       type: Sequelize.INTEGER
     }
-
 });
 
 
 // force: true will drop the table if it already exists
 /*
-User.sync({force: true}).then(() => {
+U.sync({force: true}).then(() => {
   // Table created
-  return User.create({
+  return U.create({
     firstName: 'Justin',
     lastName: 'Weber',
     email: 'jjweber@student.fullsail.edu',
@@ -65,6 +100,42 @@ User.sync({force: true}).then(() => {
 });
 */
 
+router.get('/auth/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});
+
+router.get('/api/user', authed, function(req, res) {
+  res.json(req.user);
+});
+
+router.get('/auth/google', passport.authenticate('google', {
+  scope: ['https://www.googleapis.com/auth/plus.login', "email"] })
+);
+
+router.get('/auth/google/callback', passport.authenticate('google', {
+    successRedirect: '/welcome',
+    failureRedirect: '/'
+  })
+);
+
+router.get('/welcome', authed, function(req, res) {
+  console.log(req.user);
+  //console.log(passport.session);
+  //console.log('session.Session');
+  res.render('welcome', {
+    title: 'welcome',
+    user: req.user,
+    navitems: [
+      {link: '/', content: 'Home'},
+      {link: '/users', content: 'Users'},
+      {link: '/form', content: 'Form'},
+      {link: '/auth/google', content: 'Login'},          
+      {link: '/welcome', content: 'Welcome'}    
+    ]
+  })
+});
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { 
@@ -72,7 +143,9 @@ router.get('/', function(req, res, next) {
             navitems: [
             {link: '/', content: 'Home'},
             {link: '/users', content: 'Users'},
-            {link: '/form', content: 'Form'}            
+            {link: '/form', content: 'Form'},
+            {link: '/auth/google', content: 'Login'},          
+            {link: '/welcome', content: 'Welcome'} 
         ] });
 });
 
@@ -88,15 +161,16 @@ router.get('/staticUsers', function(req, res, next) {
             navitems: [
             {link: '/', content: 'Home'},
             {link: '/users', content: 'Users'},
-            {link: '/form', content: 'Form'}
+            {link: '/form', content: 'Form'},
+            {link: '/auth/google', content: 'Login'},          
+            {link: '/welcome', content: 'Welcome'} 
         ] });
 });
 
 /* GET users page. */
 router.get('/users', function(req, res, next) {
 
-
-  users = User.findAll().then(users => {
+  users = U.findAll().then(users => {
 
     res.render('users', { 
         title: 'Users',
@@ -104,13 +178,15 @@ router.get('/users', function(req, res, next) {
         navitems: [
         {link: '/', content: 'Home'},
         {link: '/users', content: 'Users'},
-        {link: '/form', content: 'Form'}
+        {link: '/form', content: 'Form'},
+        {link: '/auth/google', content: 'Login'},          
+        {link: '/welcome', content: 'Welcome'} 
     ] });
     
   }) 
 
   // For use without sequelize
-  /* var userObj = new User({}, req);
+  /* var userObj = new U({}, req);
 
   userObj.getAll(function(users) {
 
@@ -125,7 +201,6 @@ router.get('/users', function(req, res, next) {
 
   })
   */
-
 
 });
 
@@ -201,7 +276,7 @@ router.post('/validate_User_Add_Form', function(req, res, next) {
       if (valid == false) {
         res.send(form);
       } else {
-        User.create({
+        U.create({
           firstName: incomingData.firstName,
           lastName: incomingData.lastName,
           email: incomingData.email,
@@ -216,13 +291,13 @@ router.post('/validate_User_Add_Form', function(req, res, next) {
     
 });
 
-/* POST Delete User.*/ 
+/* POST Delete U.*/ 
 router.post('/delete_user_Form', function(req, res, next) {
   var incomingData = req.body.idField;
 
   console.log(incomingData);
   
-  User.destroy({
+  U.destroy({
     where: {
       id: incomingData
     }
@@ -232,11 +307,11 @@ router.post('/delete_user_Form', function(req, res, next) {
 
 });
 
-/* POST Edit User form.*/ 
+/* POST Edit U form.*/ 
 router.post('/edit_user_Form', function(req, res, next) {
   var formData = req.body.userEdit;
 
-  var current = User.findAll(
+  var current = U.findAll(
     {
       where: {
         id: formData,
@@ -323,7 +398,7 @@ router.post('/validate_User_Edit_Form', function(req, res, next) {
       if (valid == false) {
         res.send(form);
       } else {
-        User.update({
+        U.update({
             firstName: incomingData.firstName,
             lastName: incomingData.lastName,
             email: incomingData.email,
@@ -358,10 +433,11 @@ router.get('/form', function(req, res, next) {
             navitems: [
             {link: '/', content: 'Home'},
             {link: '/users', content: 'Users'},
-            {link: '/form', content: 'Form', title: 'Form Validation', success: false, errors: req.session.errors}           
+            {link: '/form', content: 'Form', title: 'Form Validation', success: false, errors: req.session.errors},
+            {link: '/auth/google', content: 'Login'},          
+            {link: '/welcome', content: 'Welcome'}            
             ]
       });
-      //res.send('show', { message: req.flash('info') });  
       
 });
 
@@ -378,7 +454,9 @@ router.get('/successForm', function(req, res, next) {
             navitems: [
             {link: '/', content: 'Home'},
             {link: '/users', content: 'Users'},
-            {link: '/form', content: 'Form', title: 'Form Validation', success: false, errors: req.session.errors}           
+            {link: '/form', content: 'Form', title: 'Form Validation', success: false, errors: req.session.errors},
+            {link: '/auth/google', content: 'Login'},          
+            {link: '/welcome', content: 'Welcome'}            
             ]
       });
       //res.send('show', { message: req.flash('info') });  
@@ -423,19 +501,13 @@ router.post('/submit', function(req, res, next) {
       }
       
       res.redirect('/form');      
-
-       
-
       
     } 
     if(JSON.stringify(matched) == 'true') {
       res.redirect('/successForm');
     }
-
     
   });
-
-  
 
 });
 

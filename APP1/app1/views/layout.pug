@@ -16,9 +16,15 @@ html
         .container-fluid
           .navbar-header
             each item in navitems
-              <span> | </span>
-              a(class=title==item.content?'active':undefined, href=item.link)
-                =item.content
+              if (user && item.content == 'Login')
+                | <span> | <a href="/auth/logout">Logout</a> </span>              
+              else if (user && item.content == 'Welcome' && title != "welcome")
+                <span> | </span>   
+                a(class=title==item.content?'active':undefined, href=item.link)=item.content
+              else
+                if item.content != 'Welcome'
+                  <span> | </span>
+                  a(class=title==item.content?'active':undefined, href=item.link)=item.content
 
       div.page-header
       h1
