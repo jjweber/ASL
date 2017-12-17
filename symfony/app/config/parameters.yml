@@ -9,4 +9,4 @@ parameters:
     mailer_host: localhost
     mailer_user: null
     mailer_password: null
-    secret: 1dc6e6dfa5445c0b2d32955daff3a32086aa5d80
+    secret: 2b70e52ba8d0d56ef710b523435febc617a07dd8

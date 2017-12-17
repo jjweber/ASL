@@ -1,10 +1,11 @@
-<?php
+<?php 
 
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,15 +22,79 @@ use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Email as EmailConstraint;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
+use Symfony\Component\HttpKernel\Config\FileLocator;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class WelcomeController extends Controller
 {
+    
     /**
-     * @Route("/login", name="login_form")
+     * @Route("/admin")
      */
-    public function loginAction() {
+    public function adminAction()
+    {
+        resource: '../../../quickstart.php';
+        $response->headers->set('Content-Type', 'text/plain');
 
+    }
+
+
+    /**
+     * @Route("/login", name="loginform")
+     * @Method({"GET", "POST"})
+     */
+
+    public function loginAction(Request $request) {
+
+        //$response = new RedirectResponse('../../../quickstart.php');
+
+        $request = Request::create(
+            '../../../quickstart.php',
+            'GET',
+            array('name' => 'Fabien')
+        );
+
+        return $request;
+        //require_once "include_path='quickstart.php'";
+
+        //require_once '../../../vendor/autoload.php';
+/*
+        $client= new \Google_Client();
+        $client->setApplicationName('symfonyApp');// to set app name
+        $client->setClientId('588530792979-cd07nit4ki9l2ksj4kms3cs0fqeglii0.apps.googleusercontent.com');// to set app id or client id
+        $client->setClientSecret('mINeGSvxWYG7-9VjCBKB_m9k'); // to set app secret or client secret   
+        $client->setRedirectUri('http://localhost:8001/auth/oauth2/auth');// to set redirect uri
+
+        $url= $client->createAuthUrl();// to get login url
+        echo $url;
+        echo '<a href=”'.$url.'” onclick>Log in with Google!</a>';die;
+
+*/
+
+    }
+
+
+    /**
+     * @Route("/auth", name="auth//accounts.google.com/o/oauth2/auth")
+     * @Method("GET")
+     */
+
+     public function redirectAction(Request $request) {
+        $client= new \Google_Client();
+        
+        echo $client;
+        
+        $client->setApplicationName('symfonyApp');// to set app name
+        $client->setClientId('588530792979-cd07nit4ki9l2ksj4kms3cs0fqeglii0.apps.googleusercontent.com');// to set app id or client id
+        $client->setClientSecret('mINeGSvxWYG7-9VjCBKB_m9k');// to set app secret or client secret
+        $client->setRedirectUri('http://localhost:8001/auth/oauth2/auth');// to set redirect uri
+                
+        $service = new \Google_Service_Oauth2($client);
+        $code=$client->authenticate($request->query->get('code'));// to get code
+        $client->setAccessToken($code);// to get access token by setting of $code
+        $userDetails=$service->userinfo->get();// to get user detail by using access token
+        var_dump($userDetails);die;
     }
 
 

@@ -15,10 +15,10 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         $this->context = $context;
     }
 
-    public function match($pathinfo)
+    public function match($rawPathinfo)
     {
         $allow = array();
-        $pathinfo = rawurldecode($pathinfo);
+        $pathinfo = rawurldecode($rawPathinfo);
         $trimmedPathinfo = rtrim($pathinfo, '/');
         $context = $this->context;
         $request = $this->request;
@@ -39,11 +39,12 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             if (0 === strpos($pathinfo, '/_profiler')) {
                 // _profiler_home
                 if ('/_profiler' === $trimmedPathinfo) {
+                    $ret = array (  '_controller' => 'web_profiler.controller.profiler:homeAction',  '_route' => '_profiler_home',);
                     if (substr($pathinfo, -1) !== '/') {
-                        return $this->redirect($pathinfo.'/', '_profiler_home');
+                        return array_replace($ret, $this->redirect($rawPathinfo.'/', '_profiler_home'));
                     }
 
-                    return array (  '_controller' => 'web_profiler.controller.profiler:homeAction',  '_route' => '_profiler_home',);
+                    return $ret;
                 }
 
                 if (0 === strpos($pathinfo, '/_profiler/search')) {
@@ -111,11 +112,12 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                     goto not_product_index;
                 }
 
+                $ret = array (  '_controller' => 'AppBundle\\Controller\\ProductController::indexAction',  '_route' => 'product_index',);
                 if (substr($pathinfo, -1) !== '/') {
-                    return $this->redirect($pathinfo.'/', 'product_index');
+                    return array_replace($ret, $this->redirect($rawPathinfo.'/', 'product_index'));
                 }
 
-                return array (  '_controller' => 'AppBundle\\Controller\\ProductController::indexAction',  '_route' => 'product_index',);
+                return $ret;
             }
             not_product_index:
 
@@ -170,72 +172,101 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
-        // login_form
-        if ('/login' === $pathinfo) {
-            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::loginAction',  '_route' => 'login_form',);
+        // app_welcome_admin
+        if ('/admin' === $pathinfo) {
+            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::adminAction',  '_route' => 'app_welcome_admin',);
         }
+
+        // auth//accounts.google.com/o/oauth2/auth
+        if ('/auth' === $pathinfo) {
+            if ('GET' !== $canonicalMethod) {
+                $allow[] = 'GET';
+                goto not_authaccountsgooglecomooauth2auth;
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::redirectAction',  '_route' => 'auth//accounts.google.com/o/oauth2/auth',);
+        }
+        not_authaccountsgooglecomooauth2auth:
+
+        // loginform
+        if ('/login' === $pathinfo) {
+            if (!in_array($canonicalMethod, array('GET', 'POST'))) {
+                $allow = array_merge($allow, array('GET', 'POST'));
+                goto not_loginform;
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::loginAction',  '_route' => 'loginform',);
+        }
+        not_loginform:
 
         // homepage
         if ('' === $trimmedPathinfo) {
+            $ret = array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::indexAction',  '_route' => 'homepage',);
             if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'homepage');
+                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'homepage'));
             }
 
-            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::indexAction',  '_route' => 'homepage',);
+            return $ret;
         }
 
         // userspage
         if ('' === $trimmedPathinfo) {
+            $ret = array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::usersAction',  '_route' => 'userspage',);
             if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'userspage');
+                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'userspage'));
             }
 
-            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::usersAction',  '_route' => 'userspage',);
+            return $ret;
         }
 
         // addForm
         if ('' === $trimmedPathinfo) {
+            $ret = array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::addForm',  '_route' => 'addForm',);
             if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'addForm');
+                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'addForm'));
             }
 
-            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::addForm',  '_route' => 'addForm',);
+            return $ret;
         }
 
         // addUser
         if ('' === $trimmedPathinfo) {
+            $ret = array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::addUser',  '_route' => 'addUser',);
             if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'addUser');
+                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'addUser'));
             }
 
-            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::addUser',  '_route' => 'addUser',);
+            return $ret;
         }
 
         // gUser
         if ('' === $trimmedPathinfo) {
+            $ret = array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::gUser',  '_route' => 'gUser',);
             if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'gUser');
+                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'gUser'));
             }
 
-            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::gUser',  '_route' => 'gUser',);
+            return $ret;
         }
 
         // deleteUser
         if ('' === $trimmedPathinfo) {
+            $ret = array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::deleteUser',  '_route' => 'deleteUser',);
             if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'deleteUser');
+                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'deleteUser'));
             }
 
-            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::deleteUser',  '_route' => 'deleteUser',);
+            return $ret;
         }
 
         // updateUser
         if ('' === $trimmedPathinfo) {
+            $ret = array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::updateUser',  '_route' => 'updateUser',);
             if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'updateUser');
+                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'updateUser'));
             }
 
-            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::updateUser',  '_route' => 'updateUser',);
+            return $ret;
         }
 
         // hellopage

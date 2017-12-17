@@ -28,8 +28,6 @@ class ProductController extends Controller
 
         return $this->render('product/index.html.twig', array(
             'products' => $products,
-            'name' => 'product',
-            'title' => 'Product'
         ));
     }
 
