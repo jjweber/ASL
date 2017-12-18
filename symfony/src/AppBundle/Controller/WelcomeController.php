@@ -65,7 +65,6 @@ class WelcomeController extends Controller
 
         $session = new Session();     
         $session->set('isLoggedIn', "true");
-        $this->addRole("ROLE_ADMIN");
 
         if($session === null) {
             return $this->redirect("/");
