@@ -19,12 +19,14 @@
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
-                    
+                    {% set authed = app.session.get('isLoggedIn') %} 
+
                     {# If statements for active class #}
                     <li class="nav-item {% if app.request.attributes.get('_route') == 'homepage' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('homepage') }}">Home</a>
                     </li>
 
+                    {% if authed == 'true' %}
                     <li class="nav-item {% if app.request.attributes.get('_route') == 'userspage' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('userspage') }}">Users</a>
                     </li>
@@ -40,63 +42,29 @@
                     <li class="nav-item {% if app.request.attributes.get('_route') == 'registerForm' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('registerForm') }}">Register Form</a>
                     </li>
+                    {% endif %}
+     
 
-                    <li class="nav-item {% if app.request.attributes.get('_route') == 'loginform' %}active{% endif %}">
-                        <a class="nav-link" href="{{ path('loginform') }}">Login</a>
-                    </li>
-
+                    {% if authed == 'true' %} 
+                        <li class="nav-item log {% if app.request.attributes.get('_route') == 'delete' %}active{% endif %}">
+                            <a class="nav-link" href="{{ path('delete') }}">Logout</a>
+                        </li>
+                    {% else %} 
+                        <li class="nav-item log {% if app.request.attributes.get('_route') == 'loginform' %}active{% endif %}">
+                            <a class="nav-link" href="{{ path('loginform') }}">Login</a>
+                        </li>
+                    {% endif %}
+                    
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
             </div>
         </nav>
 
         <div role="main" class="container">
 
-            <!-- Portfolio Item Row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    {#<h1 class="page-header">{{ title }}
-                        <small>{{ title }} Subheading</small>#}
-                    </h1>
-                </div>
 
-            </div>
-            <!-- /.row -->
+            {% block body %}{% endblock %}
 
-            <div class="row">
-
-                <div class="col-md-8">
-                    {% block body %}{% endblock %}
-
-                </div>
-
-                <div class="col-md-4">
-                    <h3>Project Description</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis dolores facilis iste iusto minus, molestiae mollitia nisi temporibus! Adipisci aliquam amet ea inventore iure maiores modi officia, perspiciatis ratione voluptatum.</p>
-                    <h3>Project Details</h3>
-                    <ul>
-                        <li>Lorem Ipsum</li>
-                        <li>Dolor Sit Amet</li>
-                        <li>Consectetur</li>
-                        <li>Adipiscing Elit</li>
-                    </ul>
-                </div>
-
-            </div>
-            <!-- /.row -->
-
-            <!-- Related Projects Row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="page-header">Related Projects</h3>
-                </div>
-            </div>
-
-
-
+            
         </div><!-- /.container -->
 
         <div id="footer">
