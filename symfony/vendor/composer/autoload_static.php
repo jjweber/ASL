@@ -27,6 +27,11 @@ class ComposerStaticInitb8ff8c4c11285b64ef184e1383f5837f
         array (
             'phpseclib\\' => 10,
         ),
+        'Z' => 
+        array (
+            'Zend\\EventManager\\' => 18,
+            'Zend\\Code\\' => 10,
+        ),
         'T' => 
         array (
             'Twig\\' => 5,
@@ -61,6 +66,7 @@ class ComposerStaticInitb8ff8c4c11285b64ef184e1383f5837f
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
+            'PackageVersions\\' => 16,
         ),
         'M' => 
         array (
@@ -86,6 +92,7 @@ class ComposerStaticInitb8ff8c4c11285b64ef184e1383f5837f
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
+            'Doctrine\\DBAL\\Migrations\\' => 25,
             'Doctrine\\Common\\Inflector\\' => 26,
             'Doctrine\\Common\\Cache\\' => 22,
             'Doctrine\\Common\\Annotations\\' => 28,
@@ -107,6 +114,14 @@ class ComposerStaticInitb8ff8c4c11285b64ef184e1383f5837f
         'phpseclib\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+        ),
+        'Zend\\EventManager\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-eventmanager/src',
+        ),
+        'Zend\\Code\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-code/src',
         ),
         'Twig\\' => 
         array (
@@ -212,6 +227,10 @@ class ComposerStaticInitb8ff8c4c11285b64ef184e1383f5837f
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
+        'PackageVersions\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ocramius/package-versions/src/PackageVersions',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -251,6 +270,10 @@ class ComposerStaticInitb8ff8c4c11285b64ef184e1383f5837f
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
+        ),
+        'Doctrine\\DBAL\\Migrations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/migrations/lib/Doctrine/DBAL/Migrations',
         ),
         'Doctrine\\Common\\Inflector\\' => 
         array (
@@ -299,6 +322,13 @@ class ComposerStaticInitb8ff8c4c11285b64ef184e1383f5837f
             'SensioLabs\\Security' => 
             array (
                 0 => __DIR__ . '/..' . '/sensiolabs/security-checker',
+            ),
+        ),
+        'P' => 
+        array (
+            'ProxyManager\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/ocramius/proxy-manager/src',
             ),
         ),
         'G' => 

@@ -26,7 +26,7 @@
                         <a class="nav-link" href="{{ path('homepage') }}">Home</a>
                     </li>
 
-                    {% if authed == 'true' %}
+                    {% if authed == 'true' or is_granted('ROLE_USER') %}
                     <li class="nav-item {% if app.request.attributes.get('_route') == 'userspage' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('userspage') }}">Users</a>
                     </li>
@@ -49,10 +49,13 @@
                         <li class="nav-item log {% if app.request.attributes.get('_route') == 'delete' %}active{% endif %}">
                             <a class="nav-link" href="{{ path('delete') }}">Logout</a>
                         </li>
-                    {% else %} 
-                        <li class="nav-item log {% if app.request.attributes.get('_route') == 'loginform' %}active{% endif %}">
-                            <a class="nav-link" href="{{ path('loginform') }}">Login</a>
+                    {% else %}
+                        <li class="nav-item log {% if app.request.attributes.get('_route') == 'googleloginform' %}active{% endif %}">
+                            <a class="nav-link" href="{{ path('fos_user_security_login') }}">Login</a>
                         </li>
+                        <li class="nav-item log {% if app.request.attributes.get('_route') == 'googleloginform' %}active{% endif %}">
+                            <a class="nav-link" href="{{ path('googleloginform') }}">Social Login</a>
+                        </li> 
                     {% endif %}
                     
                 </ul>

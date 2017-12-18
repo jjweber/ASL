@@ -22,11 +22,12 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use FOS\UserBundle\Model\UserInterface;
 
 class WelcomeController extends Controller
 {
     /**
-     * @Route("/login", name="loginform")
+     * @Route("/google-login", name="googleloginform")
      * @Method({"GET", "POST"})
      */
     public function loginAction(Request $request) {
@@ -41,7 +42,7 @@ class WelcomeController extends Controller
 
         $url= $client->createAuthUrl();
 
-        echo "<a href='$url'>Log in with Google!</a>";
+        echo "<button class= btn btn-danger ><a href='$url'>Log in with Google!</a></button>";
         die;
     }
 
@@ -64,6 +65,7 @@ class WelcomeController extends Controller
 
         $session = new Session();     
         $session->set('isLoggedIn', "true");
+        $this->addRole("ROLE_ADMIN");
 
         if($session === null) {
             return $this->redirect("/");
@@ -111,6 +113,7 @@ class WelcomeController extends Controller
         $session = $request->getSession();
         $isLoggedIn = $session->get('isLoggedIn');
         
+
         if($isLoggedIn === null) {
             return $this->redirect("/");
         } else {
@@ -127,7 +130,6 @@ class WelcomeController extends Controller
         $session = $request->getSession();
         $isLoggedIn = $session->get('isLoggedIn');
 
-        return $this->redirect("/");
         
         if($isLoggedIn === null) {
             return $this->redirect("/");
