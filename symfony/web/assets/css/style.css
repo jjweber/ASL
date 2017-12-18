@@ -10,11 +10,11 @@ body {
 }
 
 .jumbotron {
-    margin: 3rem -9.5rem;
+    margin: 3rem auto -9.5rem auto;
 }
 
-b {
-    /*font-weight: 900;*/
+.log {
+    text-align: right;
 }
 
 #footer {

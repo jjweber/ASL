@@ -172,22 +172,6 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
-        // app_welcome_admin
-        if ('/admin' === $pathinfo) {
-            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::adminAction',  '_route' => 'app_welcome_admin',);
-        }
-
-        // auth//accounts.google.com/o/oauth2/auth
-        if ('/auth' === $pathinfo) {
-            if ('GET' !== $canonicalMethod) {
-                $allow[] = 'GET';
-                goto not_authaccountsgooglecomooauth2auth;
-            }
-
-            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::redirectAction',  '_route' => 'auth//accounts.google.com/o/oauth2/auth',);
-        }
-        not_authaccountsgooglecomooauth2auth:
-
         // loginform
         if ('/login' === $pathinfo) {
             if (!in_array($canonicalMethod, array('GET', 'POST'))) {
@@ -198,6 +182,16 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::loginAction',  '_route' => 'loginform',);
         }
         not_loginform:
+
+        // delete
+        if ('/delete' === $pathinfo) {
+            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::deleteAction',  '_route' => 'delete',);
+        }
+
+        // security
+        if ('/security' === $pathinfo) {
+            return array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::protectCurrentPage',  '_route' => 'security',);
+        }
 
         // homepage
         if ('' === $trimmedPathinfo) {
@@ -214,56 +208,6 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             $ret = array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::usersAction',  '_route' => 'userspage',);
             if (substr($pathinfo, -1) !== '/') {
                 return array_replace($ret, $this->redirect($rawPathinfo.'/', 'userspage'));
-            }
-
-            return $ret;
-        }
-
-        // addForm
-        if ('' === $trimmedPathinfo) {
-            $ret = array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::addForm',  '_route' => 'addForm',);
-            if (substr($pathinfo, -1) !== '/') {
-                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'addForm'));
-            }
-
-            return $ret;
-        }
-
-        // addUser
-        if ('' === $trimmedPathinfo) {
-            $ret = array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::addUser',  '_route' => 'addUser',);
-            if (substr($pathinfo, -1) !== '/') {
-                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'addUser'));
-            }
-
-            return $ret;
-        }
-
-        // gUser
-        if ('' === $trimmedPathinfo) {
-            $ret = array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::gUser',  '_route' => 'gUser',);
-            if (substr($pathinfo, -1) !== '/') {
-                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'gUser'));
-            }
-
-            return $ret;
-        }
-
-        // deleteUser
-        if ('' === $trimmedPathinfo) {
-            $ret = array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::deleteUser',  '_route' => 'deleteUser',);
-            if (substr($pathinfo, -1) !== '/') {
-                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'deleteUser'));
-            }
-
-            return $ret;
-        }
-
-        // updateUser
-        if ('' === $trimmedPathinfo) {
-            $ret = array (  '_controller' => 'AppBundle\\Controller\\WelcomeController::updateUser',  '_route' => 'updateUser',);
-            if (substr($pathinfo, -1) !== '/') {
-                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'updateUser'));
             }
 
             return $ret;
