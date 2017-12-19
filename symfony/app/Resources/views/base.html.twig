@@ -49,6 +49,12 @@
                         <li class="nav-item log {% if app.request.attributes.get('_route') == 'delete' %}active{% endif %}">
                             <a class="nav-link" href="{{ path('delete') }}">Logout</a>
                         </li>
+
+                    {% elseif is_granted('ROLE_USER') %} 
+                        <li class="nav-item log">
+                            <a class="nav-link" href="{{ path('fos_user_security_logout') }}">Logout</a>
+                        </li>
+
                     {% else %}
                         <li class="nav-item log {% if app.request.attributes.get('_route') == 'googleloginform' %}active{% endif %}">
                             <a class="nav-link" href="{{ path('fos_user_security_login') }}">Login</a>
